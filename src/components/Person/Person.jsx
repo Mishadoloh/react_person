@@ -1,17 +1,33 @@
+import React from 'react';
 import './Person.scss';
 
-const partherInfo = details => {
-  const parnerSex = details.sex === 'f' ? 'husband' : 'wife';
+export const Person = ({ person }) => {
+  const { name, age, sex, isMarried, partnerName } = person;
 
-  return !details.isMarried
-    ? 'I am not married'
-    : `${details.partnerName} is my ${parnerSex}`;
+  const ageBlock =
+    typeof age !== 'undefined' ? (
+      <p className="Person__age">I am {age}</p>
+    ) : null;
+
+  const getPartnerInfo = () => {
+    if (!isMarried) {
+      return 'I am not married';
+    }
+
+    const partnerSex = sex === 'male' ? 'wife' : 'husband';
+
+    return `${partnerName} is my ${partnerSex}`;
+  };
+
+  const partnerText = getPartnerInfo();
+
+  return (
+    <div className="Person">
+      <h2 className="Person__name">{name}</h2>
+
+      {ageBlock}
+
+      <p className="Person__partner">{partnerText}</p>
+    </div>
+  );
 };
-
-export const Person = ({ person }) => (
-  <section className="Person">
-    <h2 className="Person__name">My name is {person.name}</h2>
-    {person.age && <p className="Person__age">I am {person.age}</p>}
-    <p className="Person__partner">{partherInfo(person)}</p>
-  </section>
-);
